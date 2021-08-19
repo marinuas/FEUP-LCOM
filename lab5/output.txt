@@ -1,0 +1,4 @@
+timer get config 36 
+LSB ae 
+MSB 4d 
+ihihih

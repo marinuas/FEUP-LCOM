@@ -1,0 +1,148 @@
+switch (st) {
+      case INITT:
+      printf("INITT\n");
+        x = 0, y = 0;
+        if( mouse_ev->type == LB_PRESSED)
+          st = DRAWL;
+        break;
+      case DRAWL:
+        printf("DRAWL\n");
+        if( mouse_ev->type == MOUSE_MOV) {
+          if((mouse_ev->delta_x >= (-1) *tolerance && mouse_ev->delta_y <= (-1)*tolerance)){
+              x += mouse_ev->delta_x;
+              y += mouse_ev->delta_y;
+          }
+          else {
+            x=0, y=0;
+          }
+        }         
+        else if( mouse_ev->type == LB_RELEASED){
+          if(x >= x_len && y > x&&  abs(mouse_ev->delta_x) <= tolerance && abs(mouse_ev->delta_y) <= tolerance)
+            st = MID;
+        }
+        else st=INITT;
+        break;
+      case MID:
+      printf("MID\n");
+          x=0, y=0;
+          if(mouse_ev->type==RB_PRESSED)  st=DRAWR;
+          else if(mouse_ev->type==LB_PRESSED){
+            st=DRAWL;
+            x=0, y=0;
+          }else if (mouse_ev->type==BUTTON_EV){
+            st=INITT;
+          }
+          break;
+          
+      case DRAWR:
+      printf("DRAWR\n");
+        if( mouse_ev->type == MOUSE_MOV) {
+            if(mouse_ev->delta_x >= (-1)*(int)tolerance && mouse_ev->delta_y <= tolerance){
+                x += mouse_ev->delta_x;
+                y += mouse_ev->delta_y;
+            }
+            else 
+              st = INITT;
+          }         
+        else if( mouse_ev->type == RB_RELEASED){
+          if(x >= x_len && abs(y)> x &&  abs(mouse_ev->delta_x) <= tolerance && abs(mouse_ev->delta_y) <= tolerance)
+            st=COMP;
+        }
+        else if (mouse_ev->type == LB_PRESSED) {
+          st=DRAWL; 
+          x=0, y=0;
+        }
+        else st = INITT;
+
+        break;
+      case COMP:
+        return 0;
+        break;
+      default:
+    break;
+  }
+  return 1;
+
+
+
+
+
+
+
+
+
+
+
+  switch (st) {
+      case INITT:
+        printf("INITT");
+        x = 0, y = 0;
+        if( mouse_ev->type == LB_PRESSED){
+            st = DRAWL;
+             printf("state: %d", st);
+            
+        }
+         break;
+      case DRAWL:
+        printf("DRAWL");
+                 
+        if( mouse_ev->type == LB_RELEASED){
+          printf("xx");
+            st = MID;
+          
+        }
+        else if( mouse_ev->type == MOUSE_MOV) {
+         
+          if((((mouse_ev->delta_x > 0) && (mouse_ev->delta_y > 0)) || (abs(mouse_ev->delta_x) <= tolerance && abs(mouse_ev->delta_y) <= tolerance))){
+              x += mouse_ev->delta_x;
+              y += mouse_ev->delta_y;
+          }
+          else {
+            st=INITT;
+          }
+        }
+        printf("aa");
+        break;
+      case MID:
+      printf("MID\n");
+          x=0, y=0;
+          if(mouse_ev->type==RB_PRESSED) {
+             st=DRAWR;
+            }
+
+          else if(mouse_ev->type==LB_PRESSED){
+            st=DRAWL;
+            x=0, y=0;
+          }else if (mouse_ev->type==BUTTON_EV){
+            st=INITT;
+          }
+          break;
+          
+      case DRAWR:
+      printf("DRAWR\n");
+        if( mouse_ev->type == MOUSE_MOV) {
+            if(mouse_ev->delta_x >= (-1)*(int)tolerance && mouse_ev->delta_y <= tolerance){
+                x += mouse_ev->delta_x;
+                y += mouse_ev->delta_y;
+            }
+            else st = INITT;
+          }         
+        else if( mouse_ev->type == RB_RELEASED){
+          if(x >= x_len && abs(y)> x &&  abs(mouse_ev->delta_x) <= tolerance && abs(mouse_ev->delta_y) <= tolerance)
+            st=COMP;
+        }
+        else if (mouse_ev->type == LB_PRESSED) {
+          st=DRAWL; 
+          x=0, y=0;
+        }
+        else st = INITT;
+
+        break;
+      case COMP:
+        st=INITT;
+        return 0;
+        break;
+      default:
+    break;
+  }
+  return 1;
